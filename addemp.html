@@ -1,0 +1,53 @@
+{%extends "layout.html" %}
+{% block title %}addemp{% endblock %}
+{% block content %} 
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<div class="container" style="text-align: center;">
+    <a class="btn btn-warning" style="margin-top: 3%;width: 12%;float:right;background: #fbceb5;border-color: #fbceb5;" href="{{url_for('logout')}}">Log out</a>
+    <h2 class="text-align: center">Add Employee</h2><br>
+    <div class="row">
+        <div class="col-md-4">
+            <img src="/static/images/em.png" style="margin:auto;display:block;">
+        </div>
+        <div class="col-md-8">
+            <form  action="{{url_for('addemp')}}" method="post" style="margin-top: 8%;margin-left: 59%;">
+                <div class="form-group">
+                    <label>Employee Name:</label>
+                    <input type="text" class="form-control" style="width: 84%;text-align: center;margin-left: 8%;" name="name" placeholder="Enter Name" required>
+                </div><br>
+                <div class="form-group">
+                    <label>Mobile:</label>
+                    <input type="phone" class="form-control" style="width: 84%;text-align: center; margin-left: 8%;" name="mobile" placeholder="Enter Phone Number" required>
+                </div><br>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" class="form-control" style="width: 84%;text-align: center; margin-left: 8%;" name="email" placeholder="Enter Email" required>
+                </div><br>
+                <div class="form-group">
+                    <label>Address:</label>
+                    <input type="text" class="form-control" style="width: 84%;text-align: center; margin-left: 8%;" name="address" placeholder="Enter Address" required>
+                </div><br>
+                <div class="form-group">
+                    <label>Joining Date:</label>
+                    <input type="date" class="form-control" style="width: 84%;text-align: center; margin-left: 8%;" name="jd" placeholder="Enter Joining date" required>
+                </div><br>
+                <div class="form-group">
+                    <label>Years of Experience</label>
+                    <input type="text" class="form-control" style="text-align: center; margin-left: 8%;  width: 84%;" name="years" placeholder="Enter years" required>
+                </div><br>
+                <div class="form-group">
+                    <label>Degree</label>
+                    <input type="text" class="form-control" style=" text-align: center; margin-left: 8%; width: 84%;" name="degree" placeholder="Enter degree" required>
+                </div><br>
+                <div class="form-group">
+                    <label>Designation</label>
+                    <input type="text" class="form-control" style=" text-align: center; margin-left: 8%; width: 84%;" name="desig" placeholder="Enter designation" required>
+                </div><br>
+                <button class="btn btn-success" type="submit" style=" width: 30%;background-color:grey;border-color: grey;margin:auto;display:block;background-color:grey;" name="submit">Add</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

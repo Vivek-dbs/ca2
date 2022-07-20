@@ -1,0 +1,144 @@
+{%extends "layout.html" %}
+{% block title %}emp list{% endblock %}
+{% block content %} 
+
+<script>
+  $(document).ready(function(){
+    imageUrl = '/static/images/listbg.png';
+    $('body').css('background-image', 'url(' + imageUrl + ')');
+  });
+  function delete_emp(emp_id)
+  {
+    $.post(
+      '/deleteemp',
+      'emp_id='+emp_id,
+      function(response)
+      {
+        console.log(response)
+        if(response == '1')
+        {
+          alert('Employee data has benn deleted successfully');
+          location.href = '/emplist'
+        }
+      }
+    );
+  }
+  function generate(emp_id)
+  {
+    $.post(
+      '/generate',
+      'emp_id='+emp_id,
+      function(response)
+      {
+        $("#name").html(response.name);
+        $("#desig").html(response.desig);
+        $("#mobile").html(response.mobile);
+        $("#total_days").html(response.total_days);
+        $("#present_days").html(response.present_days);
+        $("#absent_days").html(response.absent_days);
+        $("#myModal").modal('show');
+      }
+    );
+  }
+  function update(emp_id)
+  {
+    location.href='/update?emp_id='+emp_id;
+  }
+  function close_modal()
+  {
+    $("#myModal").modal('hide');
+  }
+</script>
+<div class="container mt-3">
+  <a class="btn btn-warning" style="margin-top: 3%;width: 12%;float:right;background: #fbceb5;border-color: #fbceb5;" href="{{url_for('logout')}}">Log out</a>
+    <h2 class="text-center">Employee List</h2>    
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Sr. No.</th>
+            <th>Employee Name</th>
+            <th>Mobile</th>
+            <th>Years of Experience</th>
+            <th>Degree</th>
+            <th>Designation</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for emp in empdata %}
+              <tr>
+              <td>{{loop.index}}</td>
+              <td>{{emp.name}}</td>
+              <td>{{emp.mobile}}</td>
+              <td>{{emp.years}}</td>
+              <td>{{emp.degree}}</td>
+              <td>{{emp.desig}}</td>
+              <td style="display:grid;">
+                <button type="button" class="btn btn-danger" onclick="delete_emp({{emp.id}})" style="margin:2%;">Delete</button>
+                <button type="button" class="btn btn-primary" onclick="generate({{emp.id}})" style="margin:2%;">Generate Report</button>
+                <button type="button" class="btn btn-warning" onclick="update({{emp.id}})" style="margin:2%;">Update</button>
+              </td>
+              </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+</div>
+
+ <!-- The Modal -->
+ <div class="modal fade" id="myModal">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+    
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title text-center">Employee Report</h4>
+        <button type="button" class="close" data-dismiss="modal" onclick="close_modal()">&times;</button>
+      </div>
+      
+      <!-- Modal body -->
+      <div class="modal-body">
+       <div class="row">
+        <div class="col-md-12">
+          Name: <span id="name"></span>
+        </div>
+       </div>
+       <div class="row">
+        <div class="col-md-12">
+          Designation: <span id="desig"></span>
+        </div>
+       </div>
+       <div class="row">
+        <div class="col-md-12">
+          Mobile: <span id="mobile"></span>
+        </div>
+       </div>
+       <table class="table table-dark table-striped">
+        <thead>
+          <tr>
+            <th>Total Days</th>
+            <th>Present Days</th>
+            <th>Absent Days</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td id="total_days"></td>
+            <td id="present_days"></td>
+            <td id="absent_days"></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="close_modal()">Close</button>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+{% endblock %}
